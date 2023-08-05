@@ -46,8 +46,9 @@ user_agents = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36",
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36",
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36"
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36",
 ]
+
 
 def get_domain_from_ip(ip_address):
     try:
@@ -60,10 +61,18 @@ def get_domain_from_ip(ip_address):
 
 def scan_ip(ip):
     try:
-        req = requests.get(f"http://{ip}", headers={"User-Agent": random.choice(user_agents)}, timeout=2)
+        req = requests.get(
+            f"http://{ip}",
+            headers={"User-Agent": random.choice(user_agents)},
+            timeout=2,
+        )
     except:
         try:
-            req = requests.get(f"https://{ip}", headers={"User-Agent": random.choice(user_agents)}, timeout=2)
+            req = requests.get(
+                f"https://{ip}",
+                headers={"User-Agent": random.choice(user_agents)},
+                timeout=2,
+            )
         except:
             raise Exception("HTTP and HTTPS are not open for ip:" + ip)
 
@@ -71,13 +80,21 @@ def scan_ip(ip):
         domain = get_domain_from_ip(ip)
     except:
         domain = "No domain found"
-    soup = BeautifulSoup(req.text, 'html.parser')
+    soup = BeautifulSoup(req.text, "html.parser")
     headers_dict = dict(req.headers)
     try:
-        robots_req = requests.get(f"http://{ip}/robots.txt", headers={"User-Agent": random.choice(user_agents)}, timeout=2)
+        robots_req = requests.get(
+            f"http://{ip}/robots.txt",
+            headers={"User-Agent": random.choice(user_agents)},
+            timeout=2,
+        )
     except:
         try:
-            robots_req = requests.get(f"https://{ip}/robots.txt", headers={"User-Agent": random.choice(user_agents)}, timeout=2)
+            robots_req = requests.get(
+                f"https://{ip}/robots.txt",
+                headers={"User-Agent": random.choice(user_agents)},
+                timeout=2,
+            )
         except:
             robots_req = None
     if robots_req:
@@ -93,12 +110,15 @@ def scan_ip(ip):
         "html": req.text,
         "robots.txt": robots,
         "html_title": soup.title.string.strip() if soup.title else "Title not found",
-        "html_description": soup.find("meta", {"name": "description"})["content"] if soup.find("meta", {"name": "description"}) else "Description not found",
+        "html_description": soup.find("meta", {"name": "description"})["content"]
+        if soup.find("meta", {"name": "description"})
+        else "Description not found",
         "links": [link["href"] for link in soup.find_all("a", href=True)],
         "images": [image["src"] for image in soup.find_all("img", src=True)],
-        "scripts": [script["src"] for script in soup.find_all("script", src=True)]
+        "scripts": [script["src"] for script in soup.find_all("script", src=True)],
     }
     return ip_json
+
 
 def scan_and_save_ip():
     while True:
@@ -117,6 +137,7 @@ def scan_and_save_ip():
                 ip_list.append(ip)
                 with open("ip_list.json", "w") as f:
                     json.dump({"ip": ip_list}, f, indent=4)
+
 
 threads = []
 for _ in range(8):
