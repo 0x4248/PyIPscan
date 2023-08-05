@@ -23,5 +23,7 @@ for file in os.listdir("data"):
 
 print(f"Total IP addresses scanned: {total_ips}")
 print(f"Working IP addresses scanned: {working_ips}")
-print(f"Percentage of IP addresses scanned that work: {round(working_ips / total_ips * 100, 2)}%")
+print(
+    f"Percentage of IP addresses scanned that work: {round(working_ips / total_ips * 100, 2)}%"
+)
 print(f"Percentage of the internet scanned: {round(total_ips / 4294967295 * 100, 10)}%")
