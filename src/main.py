@@ -139,6 +139,7 @@ def scan_and_save_ip():
                 with open("ip_list.json", "w") as f:
                     json.dump({"ip": ip_list}, f, indent=4)
 
+
 try:
     threads = []
     for _ in range(8):
