@@ -11,6 +11,7 @@ import datetime
 from bs4 import BeautifulSoup
 import threading
 import socket
+import sys
 
 with open("ip_list.json", "r") as f:
     ip_list = json.load(f)
@@ -138,12 +139,15 @@ def scan_and_save_ip():
                 with open("ip_list.json", "w") as f:
                     json.dump({"ip": ip_list}, f, indent=4)
 
+try:
+    threads = []
+    for _ in range(8):
+        thread = threading.Thread(target=scan_and_save_ip)
+        thread.start()
+        threads.append(thread)
 
-threads = []
-for _ in range(8):
-    thread = threading.Thread(target=scan_and_save_ip)
-    thread.start()
-    threads.append(thread)
-
-for thread in threads:
-    thread.join()
+    for thread in threads:
+        thread.join()
+except KeyboardInterrupt:
+    print("KeyboardInterrupt Stopping...")
+    sys.exit(0)
