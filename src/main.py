@@ -150,5 +150,5 @@ try:
     for thread in threads:
         thread.join()
 except KeyboardInterrupt:
-    print("KeyboardInterrupt Stopping...")
+    print("KeyboardInterrupt Stopping... If this doesn't work, press Ctrl+C again.")
     sys.exit(0)
