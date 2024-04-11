@@ -1,8 +1,8 @@
 # Python IP Scanner
 # Picks random IP addresses and scans them for open HTTP and HTTPS ports.
-# Github: https://www.github.com/lewisevans2007/pyipscan
+# Github: https://www.github.com/0x4248/pyipscan
 # License: GNU General Public License v3.0
-# By: Lewis Evans
+# By: 0x4248
 
 # Stats shows the statistics of the scan.
 # It shows the number of IP addresses scanned, and the total working
