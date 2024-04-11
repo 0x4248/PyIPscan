@@ -111,9 +111,11 @@ def scan_ip(ip):
         "html": req.text,
         "robots.txt": robots,
         "html_title": soup.title.string.strip() if soup.title else "Title not found",
-        "html_description": soup.find("meta", {"name": "description"})["content"]
-        if soup.find("meta", {"name": "description"})
-        else "Description not found",
+        "html_description": (
+            soup.find("meta", {"name": "description"})["content"]
+            if soup.find("meta", {"name": "description"})
+            else "Description not found"
+        ),
         "links": [link["href"] for link in soup.find_all("a", href=True)],
         "images": [image["src"] for image in soup.find_all("img", src=True)],
         "scripts": [script["src"] for script in soup.find_all("script", src=True)],
